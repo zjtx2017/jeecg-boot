@@ -1,158 +1,165 @@
-Jeecg-Boot 快速开发平台
+
+JeecgBoot 低代码开发平台
 ===============
 
-当前最新版本： 2.0.2（发布日期：20190708）
+当前最新版本： 3.7.1（发布日期：2024-09-12） 
 
 
-## 后端技术架构
-- 基础框架：Spring Boot 2.1.3.RELEASE
-
-- 持久层框架：Mybatis-plus_3.1.2
-
-- 安全框架：Apache Shiro 1.4.0，Jwt_3.7.0
-
-- 数据库连接池：阿里巴巴Druid 1.1.10
-
-- 缓存框架：redis
-
-- 日志打印：logback
-
-- 其他：fastjson，poi，Swagger-ui，quartz, lombok（简化代码）等。
+[![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zhangdaiscott/jeecg-boot/blob/master/LICENSE)
+[![](https://img.shields.io/badge/Author-北京国炬软件-orange.svg)](http://jeecg.com/aboutusIndex)
+[![](https://img.shields.io/badge/version-3.7.1-brightgreen.svg)](https://github.com/zhangdaiscott/jeecg-boot)
+[![GitHub stars](https://img.shields.io/github/stars/zhangdaiscott/jeecg-boot.svg?style=social&label=Stars)](https://github.com/zhangdaiscott/jeecg-boot)
+[![GitHub forks](https://img.shields.io/github/forks/zhangdaiscott/jeecg-boot.svg?style=social&label=Fork)](https://github.com/zhangdaiscott/jeecg-boot)
 
 
 
-## 开发环境
+项目介绍
+-----------------------------------
 
-- 语言：Java 8
+<h3 align="center">Java Low Code Platform for Enterprise web applications</h3>
 
-- IDE(JAVA)： Eclipse安装lombok插件 或者 IDEA
+JeecgBoot 是一款基于代码生成器的`低代码开发平台`！前后端分离架构 SpringBoot2.x和3.x，SpringCloud，Ant Design Vue3，Mybatis-plus，Shiro，JWT，支持微服务。强大的代码生成器让前后端代码一键生成，实现低代码开发!  JeecgBoot 引领新的低代码开发模式(OnlineCoding-> 代码生成器-> 手工MERGE)， 帮助解决Java项目70%的重复工作，让开发更多关注业务。既能快速提高效率，节省研发成本，同时又不失灵活性！
 
+
+#### 项目说明
+
+| 项目名                | 说明                     | 
+|--------------------|------------------------|
+| `jeecg-boot`    | 后端源码JAVA（SpringBoot微服务架构）        |
+| `jeecgboot-vue3` | 前端源码VUE3（vue3+vite5+ts最新技术栈）  |
+
+
+
+技术文档
+-----------------------------------
+
+- 官方网站：  [http://www.jeecg.com](http://www.jeecg.com)
+- 新手指南： [快速入门](http://www.jeecg.com/doc/quickstart)
+- QQ交流群 ： ⑨808791225、其他(满)
+- 在线演示 ：  [在线演示](http://boot3.jeecg.com)   | [APP演示](http://jeecg.com/appIndex)
+> 演示系统的登录账号密码，请点击 [获取账号密码](http://jeecg.com/doc/demo) 获取 
+
+
+
+启动项目
+-----------------------------------
+
+- [IDEA启动前后端项目](https://help.jeecg.com/java/setup/idea/startup.html)
+- [Docker一键启动前后端](https://help.jeecg.com/java/docker/quick.html)
+
+
+微服务启动
+-----------------------------------
+- [单体快速切换微服务](https://help.jeecg.com/java/springcloud/switchcloud/monomer.html)
+- [Docker启动微服务后台](https://help.jeecg.com/java/docker/springcloud.html)
+
+
+
+技术架构：
+-----------------------------------
+
+#### 后端
+
+- IDE建议： IDEA (必须安装lombok插件 )
+- 语言：Java 8+ (支持17)
 - 依赖管理：Maven
-
-- 数据库：MySQL5.0  &  Oracle 11g
-
+- 基础框架：Spring Boot 2.7.18
+- 微服务框架： Spring Cloud Alibaba 2021.0.1.0
+- 持久层框架：MybatisPlus 3.5.3.2
+- 报表工具： JimuReport 1.8.1
+- 安全框架：Apache Shiro 1.12.0，Jwt 3.11.0
+- 微服务技术栈：Spring Cloud Alibaba、Nacos、Gateway、Sentinel、Skywalking
+- 数据库连接池：阿里巴巴Druid 1.1.22
+- 日志打印：logback
 - 缓存：Redis
+- 其他：autopoi, fastjson，poi，Swagger-ui，quartz, lombok（简化代码）等。
+- 默认数据库脚本：MySQL5.7+
+- [其他数据库，需要自己转](https://my.oschina.net/jeecg/blog/4905722)
 
 
-## 技术文档
+#### 前端
 
-
-- 在线演示 ：  [http://boot.jeecg.org](http://boot.jeecg.org)
-
-- 在线教程：  [http://jeecg-boot.mydoc.io/?t=345660](http://jeecg-boot.mydoc.io/?t=345660)
-
-- 常见问题：  [入门常见问题大全](http://www.jeecg.org/forum.php?mod=viewthread&tid=7816&extra=page%3D1)
-
-- QQ交流群 ：  ①284271917、②769925425
-
-
-## 专项文档
-
-#### 一、查询过滤器用法
-
-```
-QueryWrapper<?> queryWrapper = QueryGenerator.initQueryWrapper(?, req.getParameterMap());
-```
-
-代码示例：
-
-```
-
-	@GetMapping(value = "/list")
-	public Result<IPage<JeecgDemo>> list(JeecgDemo jeecgDemo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo, 
-	                                     @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
-			HttpServletRequest req) {
-		Result<IPage<JeecgDemo>> result = new Result<IPage<JeecgDemo>>();
-		
-		//调用QueryGenerator的initQueryWrapper
-		QueryWrapper<JeecgDemo> queryWrapper = QueryGenerator.initQueryWrapper(jeecgDemo, req.getParameterMap());
-		
-		Page<JeecgDemo> page = new Page<JeecgDemo>(pageNo, pageSize);
-		IPage<JeecgDemo> pageList = jeecgDemoService.page(page, queryWrapper);
-		result.setSuccess(true);
-		result.setResult(pageList);
-		return result;
-	}
-
-```
+- 前端IDE建议：WebStorm、Vscode
+- 采用 Vue3.0+TypeScript+Vite+Ant-Design-Vue等新技术方案，包括二次封装组件、utils、hooks、动态菜单、权限校验、按钮级别权限控制等功能
+- 最新技术栈：Vue3.0 + TypeScript + Vite5 + ant-design-vue4 + pinia + echarts + unocss + vxe-table + qiankun + es6
+- 依赖管理：node、npm、pnpm
 
 
 
-- 查询规则 (本规则不适用于高级查询,高级查询有自己对应的查询类型可以选择 )
+#### 支持库
 
-| 查询模式           | 用法    | 说明                         |
-|---------- |-------------------------------------------------------|------------------|
-| 模糊查询     | 支持左右模糊和全模糊  需要在查询输入框内前或后带\*或是前后全部带\* |    |
-| 取非查询     | 在查询输入框前面输入! 则查询该字段不等于输入值的数据(数值类型不支持此种查询,可以将数值字段定义为字符串类型的) |    |
-| \>  \>= < <=     | 同取非查询 在输入框前面输入对应特殊字符即表示走对应规则查询 |    |
-| in查询     | 若传入的数据带,(逗号) 则表示该查询为in查询 |    |
-| 多选字段模糊查询     | 上述4 有一个特例，若某一查询字段前后都带逗号 则会将其视为走这种查询方式 ,该查询方式是将查询条件以逗号分割再遍历数组 将每个元素作like查询 用or拼接,例如 现在name传入值 ,a,b,c, 那么结果sql就是 name like '%a%' or name like '%b%' or name like '%c%' |    |
+|  数据库   |  支持   |
+| --- | --- |
+|   MySQL   |  √   |
+|  Oracle11g   |  √   |
+|  Sqlserver2017   |  √   |
+|   PostgreSQL   |  √   |
+|   MariaDB   |  √   |
+|   达梦   |  √   |
+|   人大金仓   |  √   |
+|   TiDB   |  √   |
 
 
-#### 二、AutoPoi(EXCEL工具类-EasyPOI衍变升级重构版本）
+
  
-  [在线文档](https://github.com/zhangdaiscott/autopoi)
-  
+## 微服务解决方案
 
 
-#### 三、代码生成器
+- 1、服务注册和发现 Nacos √
+- 2、统一配置中心 Nacos  √
+- 3、路由网关 gateway(三种加载方式) √
+- 4、分布式 http feign √
+- 5、熔断降级限流 Sentinel √
+- 6、分布式文件 Minio、阿里OSS √ 
+- 7、统一权限控制 JWT + Shiro √
+- 8、服务监控 SpringBootAdmin√
+- 9、链路跟踪 Skywalking   [参考文档](https://help.jeecg.com/java/springcloud/super/skywarking.html)
+- 10、消息中间件 RabbitMQ  √
+- 11、分布式任务 xxl-job  √ 
+- 12、分布式事务 Seata
+- 13、轻量分布式日志 Loki+grafana套件
+- 14、支持 docker-compose、k8s、jenkins
+- 15、CAS 单点登录   √
+- 16、路由限流   √
 
-> 功能说明：   一键生成的代码（包括：controller、service、dao、mapper、entity、vue）
- 
- - 模板位置： src/main/resources/jeecg/code-template
- - 技术文档： http://jeecg-boot.mydoc.io/?t=345685
 
 
-
-#### 四、编码排重使用示例
-
-重复校验效果：
-![输入图片说明](https://static.oschina.net/uploads/img/201904/19191836_eGkQ.png "在这里输入图片标题")
-
-1.引入排重接口,代码如下:  
- 
+后台目录结构
+-----------------------------------
 ```
-import { duplicateCheck } from '@/api/api'
-  ```
-2.找到编码必填校验规则的前端代码,代码如下:  
-  
+项目结构
+├─jeecg-boot-parent（父POM： 项目依赖、modules组织）
+│  ├─jeecg-boot-base-core（共通模块： 工具类、config、权限、查询过滤器、注解等）
+│  ├─jeecg-module-demo    示例代码
+│  ├─jeecg-module-system  System系统管理目录
+│  │  ├─jeecg-system-biz    System系统管理权限等功能
+│  │  ├─jeecg-system-start  System单体启动项目(8080）
+│  │  ├─jeecg-system-api    System系统管理模块对外api
+│  │  │  ├─jeecg-system-cloud-api   System模块对外提供的微服务接口
+│  │  │  ├─jeecg-system-local-api   System模块对外提供的单体接口
+│  ├─jeecg-server-cloud           --微服务模块
+     ├─jeecg-cloud-gateway       --微服务网关模块(9999)
+     ├─jeecg-cloud-nacos       --Nacos服务模块(8848)
+     ├─jeecg-system-cloud-start  --System微服务启动项目(7001)
+     ├─jeecg-demo-cloud-start    --Demo微服务启动项目(7002)
+     ├─jeecg-visual
+        ├─jeecg-cloud-monitor       --微服务监控模块 (9111)
+        ├─jeecg-cloud-xxljob        --微服务xxljob定时任务服务端 (9080)
+        ├─jeecg-cloud-sentinel     --sentinel服务端 (9000)
+        ├─jeecg-cloud-test           -- 微服务测试示例（各种例子）
+           ├─jeecg-cloud-test-more         -- 微服务测试示例（feign、熔断降级、xxljob、分布式锁）
+           ├─jeecg-cloud-test-rabbitmq     -- 微服务测试示例（rabbitmq）
+           ├─jeecg-cloud-test-seata          -- 微服务测试示例（seata分布式事务）
+           ├─jeecg-cloud-test-shardingsphere    -- 微服务测试示例（分库分表）
 ```
-<a-input placeholder="请输入编码" v-decorator="['code', validatorRules.code ]"/>
 
-code: {
-            rules: [
-              { required: true, message: '请输入编码!' },
-              {validator: this.validateCode}
-            ]
-          },
-  ```
-3.找到rules里validator对应的方法在哪里,然后使用第一步中引入的排重校验接口.  
-  以用户online表单编码为示例,其中四个必传的参数有:  
-    
-```
-  {tableName:表名,fieldName:字段名,fieldVal:字段值,dataId:表的主键},
-  ```
- 具体使用代码如下:  
- 
-```
-    validateCode(rule, value, callback){
-        let pattern = /^[a-z|A-Z][a-z|A-Z|\d|_|-]{0,}$/;
-        if(!pattern.test(value)){
-          callback('编码必须以字母开头，可包含数字、下划线、横杠');
-        } else {
-          var params = {
-            tableName: "onl_cgreport_head",
-            fieldName: "code",
-            fieldVal: value,
-            dataId: this.model.id
-          };
-          duplicateCheck(params).then((res)=>{
-            if(res.success){
-             callback();
-            }else{
-              callback(res.message);
-            }
-          })
-        }
-      },
-```
+
+
+
+#### 微服务架构图
+![微服务架构图](https://jeecgos.oss-cn-beijing.aliyuncs.com/files/jeecgboot_springcloud2022.png "在这里输入图片标题")
+
+
+
+
+
